@@ -863,33 +863,92 @@
 
 // usuing External JSON
 
-var xmlhttp = new XMLHttpRequest();
-xmlhttp.onreadystatechange = function() {
+// var xmlhttp = new XMLHttpRequest();
+// xmlhttp.onreadystatechange = function() {
 
-    if (this.readyState == 4 && this.status == 200) {
-        var data = this.responseText;
-        //console.log(data);
-        jsonData(data);
-    }
+//     if (this.readyState == 4 && this.status == 200) {
+//         var data = this.responseText;
+//         //console.log(data);
+//         jsonData(data);
+//     }
 
-};
-xmlhttp.open("GET", "data.json", true);
-xmlhttp.send();
+// };
+// xmlhttp.open("GET", "data.json", true);
+// xmlhttp.send();
 
-function jsonData(json_obj) {
+// function jsonData(json_obj) {
 
-    // console.log(json_obj);
-    var js_obj;
-    js_obj = JSON.parse(json_obj);
-    // console.log(js_obj );
-    for (x in js_obj.persons) {
-        //console.log(x);
+//     // console.log(json_obj);
+//     var js_obj;
+//     js_obj = JSON.parse(json_obj);
+//     // console.log(js_obj );
+//     for (x in js_obj.persons) {
+//         //console.log(x);
 
-        var persons = js_obj.persons;
-        //console.log(persons[x]);
-        for (y in persons[x]) {
-            console.log(persons[x][y]);
+//         var persons = js_obj.persons;
+//         //console.log(persons[x]);
+//         for (y in persons[x]) {
+//             console.log(persons[x][y]);
+//         }
+//     }
+
+// }
+
+
+
+
+
+// AJAX 
+
+
+// document.getElementById('Ajax').addEventListener('click', loadData);
+
+// function loadData() {
+//     //xhr=xml http request
+//     let xhr = new XMLHttpRequest();
+
+//     //  open
+//     xhr.open('GET', 'data.txt', true);
+
+//     xhr.onload = function() {
+//         if (this.status === 200) {
+//             // console.log(this.responseText)
+//             document.getElementById('output').innerHTML = `<h4>${this.responseText}</h4?`
+//         }
+
+//     }
+//     xhr.send();
+//     // console.log(xhr);
+// }
+
+
+
+
+
+// Get data from another website usuing ajax 
+
+document.getElementById('Ajax').addEventListener('click', loadjokes);
+
+function loadjokes(e) {
+    let number = document.getElementById('numofjokes').value;
+    console.log(number);
+    let xhr = new XMLHttpRequest();
+
+    xhr.open('GET', `http://api.icndb.com/jokes/random/${number}`, true)
+    xhr.onload = function() {
+        if (this.status === 200) {
+            let data = JSON.parse(this.responseText);
+            let joke = data.value;
+            let output = "<ol>";
+
+            joke.forEach(function(item) {
+                output += `<li>${item.joke}</li>`;
+            });
+            output += "</ol>";
+
+            document.getElementById('output').innerHTML = output;
+            // console.log(joke);
         }
     }
-
+    xhr.send();
 }
